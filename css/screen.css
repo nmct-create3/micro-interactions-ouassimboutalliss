@@ -61,6 +61,10 @@
     --global-whitespace-lg: calc(var(--global-baseline) * 4); /*  = 32px */
     --global-whitespace-xl: calc(var(--global-whitespace) * 2); /*  = 48px */
     --global-whitespace-xxl: calc(var(--global-whitespace) * 3); /*  = 72px */
+    
+    --global-inline-symbol-space: calc(var(--global-baseline) * 1.75); /* 14px*/
+    --global-inline-symbol-size: calc(var(--global-baseline) * 2.5); /* 20px*/
+    --global-inline-symbol--: calc(var(--global-baseline)*2.25);
 
     /* forms */
     --global-placeholder-color: var(--global-color-neutral-x-light);
@@ -648,6 +652,68 @@ input::placeholder {
 Input password with toggle checkbox on top of it needs
 more padding on the right to avoid overlap
 */
+.c-password-toggle-container{
+    position: relative;  /*want dit wordt position absolute verderop.. */
+    display: block;
+}
+
+.c-password-toggle{
+    position: absolute;  /*want dit wordt position absolute verderop.. */
+    width: var(--global-inline-symbol-size);
+    height:var(--global-inline-symbol-size);
+    
+    top: var(--global-inline-symbol-space);
+    right:var(--global-inline-symbol-space);
+
+    fill: var(--global-color-neutral-x-light);
+}
+
+
+.c-password-toggle__symbol--show{
+    display: block;
+    
+}
+
+.c-password-toggle__symbol--hide{
+    display: none;
+}
+
+
+.c-password-toggle__checkbox:checked + .c-password-toggle__label .c-password-toggle__symbol--show{
+    display: none;
+   
+}
+
+
+.c-password-toggle__checkbox:checked + .c-password-toggle__label .c-password-toggle__symbol--hide{
+    display: block;
+   
+}
+
+.c-password-toggle__checkbox:focus + .c-password-toggle__label{
+    fill:red;
+}
+
+
+.c-label__error-message {
+    font-weight: 600;
+    float:right;
+    display: none;
+}
+
+
+/*.c-password-toggle__label{
+    position: absolute;
+    right:14px;
+
+}*/
+
+.c-password-toggle__symbol{
+    position: absolute;
+   
+}
+
+
 
 .c-input--password-with-toggle {
     padding-right: 52px;
