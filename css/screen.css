@@ -73,8 +73,12 @@
     --global-input-borderColor: var(--global-color-neutral-xxx-light);
     --global-input-hover-borderColor: var(--global-color-neutral-xx-light);
     --global-input-focus-borderColor: var(--global-color-alpha);
-    --global-input-focus-boxShadowColor: var(--global-color-alpha-x-transparent);
+    --global-input-focus-boxShadowColor: var(--local-error-input-focus-boxShadowColor, var(--global-color-alpha-x-transparent));
     --global-input-focus-boxShadow: 0 0 0 3px var(--global-input-focus-boxShadowColor);
+
+    /*error state*/
+    --global-error-color: #f33;
+
 }
 
 /*------------------------------------*\
@@ -610,9 +614,33 @@ input::placeholder {
     Everything form related here
 */
 
+.c-form-field--floating {
+    position: relative;
+}
+
 .c-form-field--option {
     display: flex;
     align-items: center;
+}
+
+.c-label--can-float{
+    position: absolute;
+    top: 12px;
+    left: 8px;
+    padding: 4px 8px;
+    will-change: transform;
+    transform: translateY( 0 );
+    transition: transform 200ms ease-in-out;
+    box-shadow: 0 0 4px 4px rgba(255,255,255,0.8);
+    background: white;
+}
+
+
+.has-error{
+    --label-error-color: var(--global-error-color);
+    --local-error-input-focus-boxShadowColor: var(--global-error-color);
+
+    --error-message-display:block;
 }
 
 /*
@@ -626,7 +654,7 @@ input::placeholder {
     -moz-appearance: none;
     appearance: none;
     width: 100%;
-    border: 1px solid var(--global-input-borderColor);
+    border: 1px solid var(--label-error-color,var(--global-input-borderColor));
     border-radius: var(--global-borderRadius);
     background-color: var(--global-input-backgroundColor);
     color: var(--global-input-color);
@@ -639,13 +667,18 @@ input::placeholder {
 }
 
 .c-input:hover {
-    border-color: var(--global-input-hover-borderColor);
+    border-color: var(--label-error-color,var(--global-input-hover-borderColor));
 }
 
 .c-input:focus,
 .c-input:active {
-    border-color: var(--global-input-focus-borderColor);
+    border-color: var(--label-error-color,var(--global-input-focus-borderColor));
     box-shadow: var(--global-input-focus-boxShadow);
+}
+
+.c-input:focus + .c-label--can-float,
+.c-label--can-float.is-floating{
+    transform: translateY(-24px);
 }
 
 /*
@@ -698,7 +731,7 @@ more padding on the right to avoid overlap
 .c-label__error-message {
     font-weight: 600;
     float:right;
-    display: none;
+    display: var(--error-message-display, none);
 }
 
 
@@ -732,18 +765,42 @@ more padding on the right to avoid overlap
 */
 
 .c-label {
-    --label-color: var(--global-color-neutral-xx-dark);
+    /*--label-color: var(--global-color-neutral-xx-dark);*/
     margin-bottom: 0;
     padding-bottom: var(--global-whitespace-sm);
     font-size: 14px;
     line-height: 16px;
-    color: var(--label-color);
+    color: var(--label-error-color, var(--global-color-neutral-xx-dark));
+    
 }
 
 .c-label--option {
     padding-bottom: 0;
 }
 
+.c-like__symbol{
+    height: 10%;
+    width: 10%;
+}
+
+.c-like__symbol:active{
+    fill:red;
+    height: 5%;
+    width: 5%;
+}
+
+.loading:active {
+    -webkit-animation: rotation 2s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    from {
+            -webkit-transform: rotate(0deg);
+    }
+    to {
+            -webkit-transform: rotate(359deg);
+    }
+}
 /*
     Component: Button
     ---
